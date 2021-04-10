@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+  <title>CO2 Emission Predictor</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script>
+$( document ).ready(function() {
+  $("#total_bedrooms").focusout(function(){
+evaluate()
+});
+  function evaluate() {
+    q=$('#total_rooms').val();
+    v=$('#total_bedrooms').val();
+    r=q/v;
+    $('#rooms_per_bedrooms').val(r);
+  }
+});
+
+</script>
+<style media="screen">
+html,body{
+overflow:auto;
+}
+</style>
+</head>
+
+<body>
+ <div class="login" >
+	<h1>Predict your house price</h1>
+     <h3> Enter the following values to predict the house price</h3>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}"method="post">
+      <input type="text" name="longitude" placeholder="Longitude" required="required" />
+      <input type="text" name="latitude" placeholder="Latitude" required="required" />
+		 <input type="text" name="housing_median_age" placeholder="House Median Age" required="required" />
+    <input type="text" id="total_rooms" name="total_rooms" placeholder="Total Number of Rooms" required="required" />
+   <input type="text" id="total_bedrooms" name="total_bedrooms" placeholder="Total Number of Bedrooms" required="required" />
+  <input type="text" name="population" placeholder="Population" required="required" />
+ <input type="text" name="households" placeholder="Households" required="required" />
+<input type="text" name="median_income" placeholder="Median of Income" required="required" />
+<select id="ocean_proximity" name="ocean_proximity" placeholder="Ocean Proximity" required>
+  <option value="0">&lt1H OCEAN</option>
+  <option value="1">INLAND</option>
+  <option value="2">ISLAND</option>
+  <option value="3">NEAR BAY</option>
+  <option value="4">NEAR OCEAN</option>
+</select>
+<input type="hidden" id="rooms_per_bedrooms" name="rooms_per_bedrooms"/>
+<br>
+        <button type="submit" class="btn">Predict</button>
+    </form>
+
+   <br>
+   <br>
+   {{ prediction_text }}
+
+ </div>
+
+
+ <label style="font-size=3px">This project is created by Aavish Barapatre and Tanveer Chawla</label>
+</body>
+</html>
